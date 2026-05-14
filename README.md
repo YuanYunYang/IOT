@@ -252,4 +252,6 @@ docker build -t your-registry/iot-gateway:1.0.0 ./iot-gateway
 
 ## 开源与许可
 
-若本仓库未包含 `LICENSE` 文件，默认版权归项目维护者所有；对外开源时请补充许可证并审查 `nacos-config` 等目录是否误含敏感信息。
+本项目采用 **MIT License**，详见仓库根目录 [`LICENSE`](LICENSE)。
+
+使用或分发前请自行审查 `nacos-config` 等目录，避免将真实密钥、内网地址等敏感信息提交到公开仓库。
