@@ -1,0 +1,65 @@
+server:
+  port: 8180
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: iot-user
+          uri: lb://iot-service-user
+          predicates:
+            - Path=/api/v1/user/**
+          filters:
+            - 'RewritePath=/api/v1/user/(?<p>.*), /api/v1/$\{p}'
+        - id: iot-device
+          uri: lb://iot-service-device
+          predicates:
+            - Path=/api/v1/device/**
+          filters:
+            - 'RewritePath=/api/v1/device/(?<p>.*), /api/v1/$\{p}'
+        - id: iot-alarm
+          uri: lb://iot-service-alarm
+          predicates:
+            - Path=/api/v1/alarm/**
+          filters:
+            - 'RewritePath=/api/v1/alarm/(?<p>.*), /api/v1/$\{p}'
+        - id: iot-core
+          uri: lb://iot-service-core
+          predicates:
+            - Path=/api/v1/core/**
+          filters:
+            - 'RewritePath=/api/v1/core/(?<p>.*), /api/v1/$\{p}'
+        - id: iot-aiot
+          uri: lb://iot-service-aiot
+          predicates:
+            - Path=/api/v1/aiot/**
+          filters:
+            - 'RewritePath=/api/v1/aiot/(?<p>.*), /api/v1/$\{p}'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+iot:
+  gateway:
+    security:
+      enabled: true
+      jwt:
+        enabled: true
+        secret: iot-platform-jwt-hs256-secret-key-change-me-in-production-env
+      tokens: []
+      downstream-secret: iot-platform-gateway-shared-secret
+      permit-paths:
+        - /actuator/health
+        - /actuator/info
+        - /error
+        - /api/v1/user/auth/login

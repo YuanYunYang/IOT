@@ -1,0 +1,69 @@
+server:
+  port: 8182
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.15:3306/iot_device?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+  redis:
+    host: 192.168.1.21
+    port: 6381
+    password: 5411a124b0dee3b08bde02ae3142d289
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: ${spring.application.name}-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+iot:
+  middleware:
+    redis:
+      enabled: true
+    kafka:
+      enabled: true
+  security:
+    jwt:
+      secret: iot-platform-jwt-hs256-secret-key-change-me-in-production-env
+      validate-bearer: true
+  gateway-trust:
+    enabled: true
+    secret: iot-platform-gateway-shared-secret
+    permit-paths:
+      - /ping
+      - /actuator/health
+      - /actuator/info
+      - /error
+  clickhouse:
+    enabled: true
+    url: jdbc:ch:http://192.168.1.250:8123/default
+    username: admin
+    password: Admin@2024
+  xxl:
+    job:
+      enabled: false
+      admin-addresses: http://127.0.0.1:8080/xxl-job-admin
+      appname: iot-service-device
+      port: 9997
+      log-path: ./logs/xxl-job/device
+  device:
+    metadata-cache:
+      enabled: true
+      key-prefix: "iot:device:meta:"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

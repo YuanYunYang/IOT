@@ -1,0 +1,31 @@
+# ===== Maven/Java build =====
+**/target/
+*.class
+
+# ===== IntelliJ IDEA =====
+.idea/
+*.iml
+out/
+
+# ===== Cursor / VS Code (local editor settings, not in repo) =====
+.cursor/
+.vscode/
+
+# ===== Deploy / K8s manifests (maintain outside repo or per-environment) =====
+deploy/
+
+# ===== Documentation drafts (not tracked; use wiki/issue attachments if needed) =====
+docs/
+
+# ===== Logs =====
+*.log
+logs/
+**/logs/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Misc =====
+*.tmp
+*.swp

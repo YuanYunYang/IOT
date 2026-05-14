@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: Dhzn@1q2w3e
+      discovery:
+        server-addr: 192.168.1.249:8848
+        namespace: 47dd302e-2731-445f-8fdd-566d581d2e80
+        group: iot-group
+        fail-fast: false
+      config:
+        server-addr: 192.168.1.249:8848
+        namespace: 47dd302e-2731-445f-8fdd-566d581d2e80
+        group: iot-group
+        file-extension: yml
+        refresh-enabled: true

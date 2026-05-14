@@ -1,0 +1,62 @@
+server:
+  port: 8184
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 15000
+  redis:
+    host: 192.168.1.21
+    port: 6381
+    password: 5411a124b0dee3b08bde02ae3142d289
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: ${spring.application.name}-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+iot:
+  security:
+    jwt:
+      secret: iot-platform-jwt-hs256-secret-key-change-me-in-production-env
+      validate-bearer: true
+  middleware:
+    redis:
+      enabled: true
+    kafka:
+      enabled: true
+  gateway-trust:
+    enabled: true
+    secret: iot-platform-gateway-shared-secret
+    permit-paths:
+      - /ping
+      - /actuator/health
+      - /actuator/info
+      - /error
+  clickhouse:
+    enabled: true
+    url: jdbc:ch:http://192.168.1.250:8123/default
+    username: admin
+    password: Admin@2024
+  xxl:
+    job:
+      enabled: false
+      admin-addresses: http://192.168.1.20:8080/xxl-job-admin
+      appname: iot-service-core
+      port: 9999
+      log-path: ./logs/xxl-job/core
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
